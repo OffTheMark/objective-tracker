@@ -25,3 +25,6 @@ class TimeEntry(models.Model):
 
     def __str__(self):
         return self.explanation
+
+    class Meta:
+        verbose_name_plural = "Time entries"
