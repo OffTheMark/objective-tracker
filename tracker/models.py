@@ -7,6 +7,12 @@ class Objective(models.Model):
     target = models.DecimalField(max_digits=6, decimal_places=2, default=0)
     date_created = models.DateTimeField()
 
+    def is_reached(self):
+        return sum([entry.effort for entry in self.timeentry_set.all()]) >= self.target
+    is_reached.admin_order_field = "goal"
+    is_reached.boolean = True
+    is_reached.short_description = "Reached"
+
     def __str__(self):
         return self.name
 

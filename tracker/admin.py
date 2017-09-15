@@ -11,7 +11,7 @@ class TimeEntryInline(admin.StackedInline):
 class ObjectiveAdmin(admin.ModelAdmin):
     inlines = [TimeEntryInline]
     date_hierarchy = "date_created"
-    list_display = ["name", "target", "date_created"]
+    list_display = ["name", "target", "date_created", "is_reached"]
     list_filter = ["date_created"]
     search_fields = ["name", "description"]
 
