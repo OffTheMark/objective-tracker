@@ -5,6 +5,6 @@ from . import views
 app_name = 'tracker'
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^signin$', views.signin, name='signin'),
+    url(r'^signin$', views.SigninView.as_view(), name='signin'),
     url(r'^signout$', views.signout, name='signout'),
 ]

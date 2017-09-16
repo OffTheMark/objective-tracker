@@ -1,6 +1,8 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
+from django.views.generic import TemplateView
+from django.urls import reverse
 
 
 def index(request):
@@ -10,16 +12,22 @@ def index(request):
         return render(request, "tracker/signin.html")
 
 
-def signin(request):
-    username = request.POST["username"]
-    password = request.POST["password"]
-    user = authenticate(request, username=username, password=password)
+class SigninView(TemplateView):
+    template_name = "tracker/signin.html"
 
-    if user is not None:
-        login(request, user)
-    return HttpResponseRedirect("/tracker")
+    def get(self, request, *args, **kwargs):
+        return render(request, "tracker/signin.html")
+
+    def post(self, request):
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+        return HttpResponseRedirect(reverse("tracker:index"))
 
 
 def signout(request):
     logout(request)
-    return HttpResponseRedirect("/tracker")
+    return HttpResponseRedirect(reverse("tracker:index"))
