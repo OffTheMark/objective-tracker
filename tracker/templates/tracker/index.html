@@ -1,0 +1,9 @@
+{% extends "tracker/base.html" %}
+
+{% block template_content %}
+     {% include "tracker/navbar.html" %}
+
+    <div class="container">
+    {% block page_content %}{% endblock %}
+    </div>
+{% endblock %}

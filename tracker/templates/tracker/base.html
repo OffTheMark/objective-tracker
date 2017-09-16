@@ -1,0 +1,18 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% block title %}Objective Tracker{% endblock %}</title>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'tracker/bootstrap/css/bootstrap.min.css' %}" />
+    </head>
+    <body>
+        {% block template_content %}{% endblock %}
+
+        <script src="{% static 'tracker/jquery/js/jquery.slim.min.js' %}"></script>
+        <script src="{% static 'tracker/bootstrap/js/bootstrap.min.js' %}"></script>
+    </body>
+</html>
