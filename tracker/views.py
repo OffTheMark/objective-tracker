@@ -18,3 +18,8 @@ def signin(request):
     if user is not None:
         login(request, user)
     return HttpResponseRedirect("/tracker")
+
+
+def signout(request):
+    logout(request)
+    return HttpResponseRedirect("/tracker")
