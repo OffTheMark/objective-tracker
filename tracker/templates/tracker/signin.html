@@ -1,0 +1,23 @@
+{% extends "tracker/base.html" %}
+
+{% load static %}
+
+{% block template_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'tracker/css/signin.css' %}" />
+{% endblock %}
+
+{% block template_content %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-sm-8 col-10">
+                <form method="post" class="form-signin" action="{% url 'tracker:signin' %}">
+                    {% csrf_token %}
+                    <h2 class="form-signin-heading">Sign in</h2>
+                    <input type="text" id="username" name="username" class="form-control" placeholder="Username or email address" required>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
