@@ -1,8 +1,8 @@
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.contrib.auth import authenticate, login, logout
-from django.views.generic import TemplateView
 from django.urls import reverse
+from django.views.generic import TemplateView
 
 
 def index(request):
@@ -25,7 +25,10 @@ class SigninView(TemplateView):
 
         if user is not None:
             login(request, user)
-        return HttpResponseRedirect(reverse("tracker:index"))
+            return HttpResponseRedirect(reverse("tracker:index"))
+        else:
+            context = {"error": "No match was found for username/email and password."}
+            return render(request, "tracker/signin.html", context)
 
 
 def signout(request):

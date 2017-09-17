@@ -13,6 +13,11 @@
                 <form method="post" class="form-signin" action="{% url 'tracker:signin' %}">
                     {% csrf_token %}
                     <h2 class="form-signin-heading">Sign in</h2>
+                    {% if error %}
+                        <div class="alert alert-danger">
+                            {{ error }}
+                        </div>
+                    {% endif %}
                     <div class="form-group">
                         <input type="text" id="username" name="username" class="form-control" placeholder="Username or email address" required>
                         <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
