@@ -21,10 +21,7 @@ def get_user_by_email_or_username(username_email):
 
 
 def index(request):
-    if request.user.is_authenticated():
-        return render(request, "tracker/index.html")
-    else:
-        return HttpResponseRedirect(reverse("tracker:signin"))
+    return render(request, "tracker/index.html")
 
 
 class SigninView(TemplateView):
