@@ -13,14 +13,22 @@
                 <form method="post" class="form-signin" action="{% url 'tracker:signin' %}">
                     {% csrf_token %}
                     <h2 class="form-signin-heading">Sign in</h2>
-                    {% if error %}
-                        <div class="alert alert-danger">
-                            {{ error }}
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger alert-dismissible fade show">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            {% for error in form.non_field_errors %}
+                                {% if forloop.counter > 1 %}
+                                    <hr>
+                                {% endif %}
+                                {{ error|escape }}
+                            {% endfor %}
                         </div>
                     {% endif %}
                     <div class="form-group">
-                        <input type="text" id="username" name="username" class="form-control" placeholder="Username or email address" required>
-                        <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+                        {{ form.username }}
+                        {{ form.password }}
                     </div>
                     <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
                 </form>
