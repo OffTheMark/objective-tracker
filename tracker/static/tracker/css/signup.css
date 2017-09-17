@@ -1,25 +1,24 @@
-.form-signin {
+.form-signup {
     margin-top: 40px;
 }
 
-.form-signin-heading {
-    margin-top: 40px;
+.form-signup-heading {
     margin-bottom: 20px;
 }
 
-.form-signin .form-control {
+.form-signup .form-control {
     box-sizing: border-box;
     height: auto;
 }
 
-.form-signin .form-group input:first-child {
+.form-signup .form-group input:first-child {
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
     margin-bottom: -1px;
 }
 
 
-.form-signin .form-group input:last-child {
+.form-signup .form-group input:last-child {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     margin-bottom: 20px;

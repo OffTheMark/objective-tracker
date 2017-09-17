@@ -3,16 +3,16 @@
 {% load static %}
 
 {% block template_css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'tracker/css/signin.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'tracker/css/signup.css' %}" />
 {% endblock %}
 
 {% block template_content %}
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6 col-sm-8 col-10">
-                <form method="post" class="form-signin" action="{% url 'tracker:signin' %}">
+                <form method="post" class="form-signup" action="{% url 'tracker:signup' %}">
                     {% csrf_token %}
-                    <h2 class="form-signin-heading">Sign in</h2>
+                    <h2 class="form-signup-heading">Sign up</h2>
                     {% if form.non_field_errors %}
                         <div class="alert alert-danger alert-dismissible fade show">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -28,9 +28,13 @@
                     {% endif %}
                     <div class="form-group">
                         {{ form.username }}
-                        {{ form.password }}
+                        {{ form.email }}
                     </div>
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                    <div class="form-group">
+                        {{ form.password }}
+                        {{ form.confirm_password }}
+                    </div>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
                 </form>
             </div>
         </div>
