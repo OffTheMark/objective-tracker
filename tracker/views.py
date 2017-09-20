@@ -1,9 +1,9 @@
 from django.contrib.auth import login, logout
-from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from django.views.generic import TemplateView
+from django.views.generic import FormView, ListView
 
 from .forms import SigninForm, SignupForm
 
@@ -24,28 +24,24 @@ def index(request):
     return render(request, "tracker/index.html")
 
 
-class SigninView(TemplateView):
+class SigninView(FormView):
     template_name = "tracker/signin.html"
+    form_class = SigninForm
 
-    def get(self, request, *args, **kwargs):
-        form = SigninForm()
+    def form_valid(self, form):
+        username = form.cleaned_data.get("username")
+        password = form.cleaned_data.get("password")
 
-        return render(request, "tracker/signin.html", {"form": form})
+        user = get_user_by_email_or_username(username)
 
-    def post(self, request):
-        form = SigninForm(request.POST)
+        if user is not None and user.check_password(password):
+            login(self.request, user)
+            return HttpResponseRedirect(reverse("tracker:index"))
 
-        if form.is_valid():
-            username = form.cleaned_data.get("username")
-            password = form.cleaned_data.get("password")
-
-            user = get_user_by_email_or_username(username)
-
-            if user is not None and user.check_password(password):
-                login(request, user)
-                return HttpResponseRedirect(reverse("tracker:index"))
-
-        return render(request, "tracker/signin.html", {"form": form})
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data["navbar_active"] = "signin"
+        return data
 
 
 def signout(request):
@@ -53,25 +49,24 @@ def signout(request):
     return HttpResponseRedirect(reverse("tracker:index"))
 
 
-class SignupView(TemplateView):
+class SignupView(FormView):
     template_name = "tracker/signup.html"
+    form_class = SignupForm
 
-    def get(self, request, *args, **kwargs):
-        form = SignupForm
+    def form_valid(self, form):
+        username = form.cleaned_data.get("username")
+        email = form.cleaned_data.get("email")
+        password = form.cleaned_data.get("password")
 
-        return render(request, "tracker/signup.html", {"form": form})
+        user = User.objects.create_user(username, email=email, password=password)
+        login(self.request, user)
+        return HttpResponseRedirect(reverse("tracker:index"))
 
-    def post(self, request):
-        form = SignupForm(request.POST)
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data["navbar_active"] = "signup"
+        return data
 
-        if form.is_valid():
-            username = form.cleaned_data.get("username")
-            email = form.cleaned_data.get("email")
-            password = form.cleaned_data.get("password")
 
-            user = User.objects.create_user(username, email=email, password=password)
-            login(request, user)
-            return HttpResponseRedirect(reverse("tracker:index"))
 
-        return render(request, "tracker/signup.html", {"form": form})
 
