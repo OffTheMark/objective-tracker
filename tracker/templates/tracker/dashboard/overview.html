@@ -1,0 +1,9 @@
+{% extends "tracker/dashboard/base.html" %}
+
+{% block dashboard_content %}
+    <section class="row objectives">
+        {% for objective in objective_list.all %}
+            {% include "tracker/dashboard/objective-card.html" %}
+        {% endfor %}
+    </section>
+{% endblock %}

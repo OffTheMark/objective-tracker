@@ -1,4 +1,5 @@
 from django.contrib.auth import login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -6,6 +7,7 @@ from django.urls import reverse
 from django.views.generic import FormView, ListView
 
 from .forms import SigninForm, SignupForm
+from .models import Objective
 
 
 def get_user_by_email_or_username(username_email):
@@ -80,5 +82,15 @@ class SignupView(FormView):
         return reverse("tracker:index")
 
 
+class DashboardOverviewView(LoginRequiredMixin, ListView):
+    template_name = "tracker/dashboard/overview.html"
+    model = Objective
 
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data["navbar_active"] = "dashboard"
+        data["sidebar_active"] = "overview"
+        return data
 
+    def get_queryset(self):
+        return Objective.objects.all()
