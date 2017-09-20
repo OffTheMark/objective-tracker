@@ -30,6 +30,9 @@
                         {{ form.username }}
                         {{ form.password }}
                     </div>
+                    {% if request.GET.next %}
+                        <input type="hidden" name="next" value="{{ request.GET.next }}"/>
+                    {% endif %}
                     <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
                 </form>
             </div>

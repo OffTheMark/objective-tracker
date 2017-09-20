@@ -27,6 +27,7 @@ def index(request):
 class SigninView(FormView):
     template_name = "tracker/signin.html"
     form_class = SigninForm
+    redirect_field_name = "next"
 
     def form_valid(self, form):
         username = form.cleaned_data.get("username")
@@ -36,12 +37,19 @@ class SigninView(FormView):
 
         if user is not None and user.check_password(password):
             login(self.request, user)
-            return HttpResponseRedirect(reverse("tracker:index"))
+
+        return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         data["navbar_active"] = "signin"
         return data
+
+    def get_success_url(self):
+        url = self.request.POST.get(self.redirect_field_name)
+        if url is None:
+            url = reverse("tracker:index")
+        return url
 
 
 def signout(request):
@@ -60,12 +68,16 @@ class SignupView(FormView):
 
         user = User.objects.create_user(username, email=email, password=password)
         login(self.request, user)
-        return HttpResponseRedirect(reverse("tracker:index"))
+
+        return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         data["navbar_active"] = "signup"
         return data
+
+    def get_success_url(self):
+        return reverse("tracker:index")
 
 
 
