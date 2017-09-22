@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'tracker.apps.TrackerConfig',
     'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.humanize',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',

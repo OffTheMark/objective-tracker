@@ -1,19 +1,48 @@
-<div class="card col-3 col-md-4 col-sm-6 objective">
+{% load humanize %}
+
+<div class="card objective">
     <div class="card-body">
-        <h4 class="card-title">
+        <h5 class="card-title">
              {{ objective.name }}
-        </h4>
-        <h6 class="card-subtitle text-muted">
-            Objective
-        </h6>
-        <p class="card-text">
-            {{ objective.description }}
-        </p>
+        </h5>
+        {% if objective.description %}
+            <p class="card-text">
+                {{ objective.description }}
+            </p>
+        {% endif %}
     </div>
-    <div class="card-body">
-        <div class="progress">
-            <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"
-                    {% if objective.progression > 0 %} style="width: {% if objective.progression < 100 %}{{ objective.progression }}{% else %}100{% endif %}%"{% endif %}></div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col-6">
+                    Completed
+                </div>
+                <div class="col-6 text-right">
+                    {{ objective.total_effort|floatformat }} hours
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    Target
+                </div>
+                <div class="col-6 text-right">
+                    {{ objective.target|floatformat }} hours
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="progress mt-2 mb-2">
+                        <div class="progress-bar {% if objective.is_reached %}bg-success{% endif %}" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"
+                                {% if objective.progression > 0 %} style="width: {% if not objective.is_reached %}{{ objective.progression }}{% else %}100{% endif %}%"{% endif %}>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <div class="card-footer">
+        <div class="text-muted text-center">
+            Created {{ objective.date_created|naturaltime }}
         </div>
     </div>
 </div>

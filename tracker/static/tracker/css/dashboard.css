@@ -27,11 +27,3 @@ h1 {
 .sidebar .nav-link {
   border-radius: 0;
 }
-
-.objectives {
-    padding-bottom: 3rem;
-}
-
-.objectives .objective .card-body:not(:first-child) {
-    border-top: 1px solid #eee;
-}
