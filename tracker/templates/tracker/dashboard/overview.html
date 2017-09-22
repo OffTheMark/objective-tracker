@@ -18,9 +18,13 @@
                 url: "{% url "tracker:dashboard/objectives" %}",
                 success: function(data) {
                     var fadeInterval = 600;
-                    $(".card-columns").fadeOut(fadeInterval);
-                    $(".card-columns").html(data);
-                    $(".card-columns").fadeIn(fadeInterval);
+                    var $cardColumns = $(".card-columns");
+                    $cardColumns
+                        .fadeOut(fadeInterval, function() {
+                            $cardColumns
+                                .html(data)
+                                .fadeIn(fadeInterval);
+                        });
                 }
             });
         }
