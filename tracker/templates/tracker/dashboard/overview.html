@@ -4,10 +4,28 @@
     <section class="row">
         <div class="col-12">
             <div class="card-columns">
-                {% for objective in objective_list.all %}
-                    {% include "tracker/dashboard/objective-card.html" %}
-                {% endfor %}
             </div>
         </div>
     </section>
+{% endblock %}
+
+{% block template_js %}
+<script type="text/javascript">
+    $(function () {
+        function reloadObjectives() {
+            $.ajax({
+                type: "GET",
+                url: "{% url "tracker:dashboard/objectives" %}",
+                success: function(data) {
+                    var fadeInterval = 600;
+                    $(".card-columns").fadeOut(fadeInterval);
+                    $(".card-columns").html(data);
+                    $(".card-columns").fadeIn(fadeInterval);
+                }
+            });
+        }
+        reloadObjectives();
+        setInterval(reloadObjectives, 30000)
+    });
+</script>
 {% endblock %}

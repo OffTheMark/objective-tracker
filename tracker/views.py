@@ -1,8 +1,9 @@
 from django.contrib.auth import login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
+from django.template.loader import render_to_string
 from django.urls import reverse
 from django.views.generic import FormView, ListView
 
@@ -97,3 +98,10 @@ class DashboardOverviewView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Objective.objects.all()
+
+
+def objectives(request):
+    if request.is_ajax():
+        objective_list = Objective.objects.all()
+        content = render_to_string("tracker/dashboard/objectives.html", {"objective_list": objective_list})
+        return HttpResponse(content)
