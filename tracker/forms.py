@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
 
+from .models import Objective
+
 
 def get_user_by_email_or_username(username_email):
     try:
@@ -20,7 +22,7 @@ class SigninForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 "class": "form-control",
-                "placeholder": "Username or email address"
+                "placeholder": "Username or email address",
             }
         )
     )
@@ -29,7 +31,7 @@ class SigninForm(forms.Form):
         widget=forms.PasswordInput(
             attrs={
                 "class": "form-control",
-                "placeholder": "Password"
+                "placeholder": "Password",
             }
         )
     )
@@ -53,7 +55,7 @@ class SignupForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 "class": "form-control",
-                "placeholder": "Username"
+                "placeholder": "Username",
             }
         )
     )
@@ -62,7 +64,7 @@ class SignupForm(forms.Form):
         widget=forms.EmailInput(
             attrs={
                 "class": "form-control",
-                "placeholder": "Email address"
+                "placeholder": "Email address",
             }
         )
     )
@@ -71,7 +73,7 @@ class SignupForm(forms.Form):
         widget=forms.PasswordInput(
             attrs={
                 "class": "form-control",
-                "placeholder": "Password"
+                "placeholder": "Password",
             }
         )
     )
@@ -80,7 +82,7 @@ class SignupForm(forms.Form):
         widget=forms.PasswordInput(
             attrs={
                 "class": "form-control",
-                "placeholder": "Confirm password"
+                "placeholder": "Confirm password",
             }
         )
     )
@@ -98,3 +100,35 @@ class SignupForm(forms.Form):
             raise forms.ValidationError("A user with this email already exists.")
         if password != confirm_password:
             raise forms.ValidationError("Passwords don't match.")
+
+
+class TimeEntryForm(forms.Form):
+    objective = forms.ModelChoiceField(
+        queryset=Objective.objects,
+        empty_label=None,
+        widget=forms.Select(
+            attrs={
+                "class": "form-control custom-select",
+            }
+        )
+    )
+    explanation = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                "class": "form-control",
+                "placeholder": "Explanation",
+            }
+        )
+    )
+    effort = forms.DecimalField(
+        max_digits=6,
+        decimal_places=2,
+        min_value=0,
+        widget=forms.NumberInput(
+            attrs={
+                "class": "form-control",
+                "step": "0.5",
+                "min": "0",
+            }
+        )
+    )
