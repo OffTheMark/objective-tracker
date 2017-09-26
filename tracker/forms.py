@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 
-from  .models import Objective
+from .models import Objective
 
 
 def get_user_by_email_or_username(username_email):

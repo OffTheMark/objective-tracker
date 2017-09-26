@@ -1,5 +1,11 @@
 {% extends "tracker/base.html" %}
 
+{% load static %}
+
+{% block template_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'tracker/css/entry.css' %}" />
+{% endblock %}
+
 {% block template_content %}
     <div class="container">
         <div class="row justify-content-center">
@@ -21,7 +27,7 @@
                     </div>
                     <div class="form-group row">
                         <label for="{{ form.effort.id_for_label }}" class="col-sm-8 col-md-9 col-lg-10 col-form-label">
-                            Effort
+                            Effort (hours)
                         </label>
                         <div class="col-sm-4 col-md-3 col-lg-2">
                             {{ form.effort }}
