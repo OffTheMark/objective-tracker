@@ -16,6 +16,11 @@
                         Dashboard
                     </a>
                 </li>
+                <li class="nav-item {% if navbar_active == "entry" %}active{% endif %}">
+                    <a class="nav-link" href="{% url "tracker:entry" %}">
+                        Time entry
+                    </a>
+                </li>
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
