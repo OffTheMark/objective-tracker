@@ -1,0 +1,37 @@
+{% extends "tracker/base.html" %}
+
+{% block template_content %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-sm-10 col-md-8 col-6">
+                <form method="post" class="form-entry" action="{% url 'tracker:entry' %}">
+                    {% csrf_token %}
+                    <h2 class="form-entry-heading">Time entry</h2>
+                    <div class="form-group">
+                        <label for="{{ form.objective.id_for_label }}">
+                            Objective
+                        </label>
+                        {{ form.objective }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.explanation.id_for_label }}">
+                            Explanation
+                        </label>
+                        {{ form.explanation }}
+                    </div>
+                    <div class="form-group row">
+                        <label for="{{ form.effort.id_for_label }}" class="col-sm-8 col-md-9 col-lg-10 col-form-label">
+                            Effort
+                        </label>
+                        <div class="col-sm-4 col-md-3 col-lg-2">
+                            {{ form.effort }}
+                        </div>
+                    </div>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">
+                        Confirm
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

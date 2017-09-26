@@ -2,13 +2,12 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.views.generic import FormView, ListView
 
-from .forms import SigninForm, SignupForm
-from .models import Objective
+from .forms import SigninForm, SignupForm, TimeEntryForm
+from .models import Objective, TimeEntry
 
 
 def get_user_by_email_or_username(username_email):
@@ -105,3 +104,30 @@ def objectives(request):
         objective_list = Objective.objects.all()
         content = render_to_string("tracker/dashboard/objectives.html", {"objective_list": objective_list})
         return HttpResponse(content)
+
+
+class TimeEntryView(LoginRequiredMixin, FormView):
+    template_name = "tracker/entry.html"
+    form_class = TimeEntryForm
+
+    def form_valid(self, form):
+        objective = form.cleaned_data.get("objective")
+        explanation = form.cleaned_data.get("explanation")
+        effort = form.cleaned_data.get("effort")
+
+        entry = TimeEntry(
+            objective=objective,
+            explanation=explanation,
+            effort=effort
+        )
+        entry.save()
+
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data["navbar_active"] = "entry"
+        return data
+
+    def get_success_url(self):
+        return reverse("tracker:entry")
