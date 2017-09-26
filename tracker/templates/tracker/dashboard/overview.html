@@ -3,7 +3,7 @@
 {% block dashboard_content %}
     <section class="row">
         <div class="col-12">
-            <div class="card-columns">
+            <div class="card-columns objectives">
             </div>
         </div>
     </section>
@@ -18,10 +18,10 @@
                 url: "{% url "tracker:dashboard/objectives" %}",
                 success: function(data) {
                     var fadeInterval = 600;
-                    var $cardColumns = $(".card-columns");
-                    $cardColumns
+                    var $objectives = $(".objectives");
+                    $objectives
                         .fadeOut(fadeInterval, function() {
-                            $cardColumns
+                            $objectives
                                 .html(data)
                                 .fadeIn(fadeInterval);
                         });

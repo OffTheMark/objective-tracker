@@ -14,20 +14,44 @@
     <ul class="list-group list-group-flush">
         <li class="list-group-item">
             <div class="row">
-                <div class="col-6">
-                    Completed
+                <div class="col-6 d-xs-none d-sm-none d-md-block">
+                    <strong>
+                        Completed
+                    </strong>
                 </div>
-                <div class="col-6 text-right">
+                <div class="col-6 d-xs-none d-sm-none d-md-block text-right">
                     {{ objective.total_effort|floatformat }} hours
                 </div>
+                <!-- Visible from md and up -->
+                <div class="d-xs-block d-sm-block d-md-none col-12">
+                    <strong>
+                        Completed
+                    </strong>
+                </div>
+                <div class="d-xs-block d-sm-block d-md-none col-12">
+                    {{ objective.total_effort|floatformat }} hours
+                </div>
+                <!-- Visible from xs to sm -->
             </div>
             <div class="row">
-                <div class="col-6">
-                    Target
+                <div class="col-6 d-xs-none d-sm-none d-md-block">
+                    <strong>
+                        Target
+                    </strong>
                 </div>
-                <div class="col-6 text-right">
+                <div class="col-6 d-xs-none d-sm-none d-md-block text-right">
                     {{ objective.target|floatformat }} hours
                 </div>
+                <!-- Visible from md and up -->
+                <div class="d-xs-block d-sm-block d-md-none col-12">
+                    <strong>
+                        Target
+                    </strong>
+                </div>
+                <div class="d-xs-block d-sm-block d-md-none col-12">
+                    {{ objective.target|floatformat }} hours
+                </div>
+                <!-- Visible from xs to sm -->
             </div>
             <div class="row">
                 <div class="col-12">
