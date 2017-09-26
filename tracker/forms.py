@@ -20,7 +20,7 @@ class SigninForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 "class": "form-control",
-                "placeholder": "Username or email address"
+                "placeholder": "Username or email address",
             }
         )
     )
@@ -29,7 +29,7 @@ class SigninForm(forms.Form):
         widget=forms.PasswordInput(
             attrs={
                 "class": "form-control",
-                "placeholder": "Password"
+                "placeholder": "Password",
             }
         )
     )
@@ -53,7 +53,7 @@ class SignupForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 "class": "form-control",
-                "placeholder": "Username"
+                "placeholder": "Username",
             }
         )
     )
@@ -62,7 +62,7 @@ class SignupForm(forms.Form):
         widget=forms.EmailInput(
             attrs={
                 "class": "form-control",
-                "placeholder": "Email address"
+                "placeholder": "Email address",
             }
         )
     )
@@ -71,7 +71,7 @@ class SignupForm(forms.Form):
         widget=forms.PasswordInput(
             attrs={
                 "class": "form-control",
-                "placeholder": "Password"
+                "placeholder": "Password",
             }
         )
     )
@@ -80,7 +80,7 @@ class SignupForm(forms.Form):
         widget=forms.PasswordInput(
             attrs={
                 "class": "form-control",
-                "placeholder": "Confirm password"
+                "placeholder": "Confirm password",
             }
         )
     )
