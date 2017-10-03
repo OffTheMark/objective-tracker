@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template.loader import render_to_string
 from django.urls import reverse
-from django.views.generic import FormView, ListView
+from django.views import generic
 
 from .forms import SigninForm, SignupForm, TimeEntryForm
 from .models import Objective, TimeEntry
@@ -29,7 +29,7 @@ def index(request):
         return HttpResponseRedirect(reverse("tracker:signin"))
 
 
-class SigninView(FormView):
+class SigninView(generic.FormView):
     template_name = "tracker/signin.html"
     form_class = SigninForm
     redirect_field_name = "next"
@@ -62,7 +62,7 @@ def signout(request):
     return HttpResponseRedirect(reverse("tracker:index"))
 
 
-class SignupView(FormView):
+class SignupView(generic.FormView):
     template_name = "tracker/signup.html"
     form_class = SignupForm
 
@@ -85,28 +85,30 @@ class SignupView(FormView):
         return reverse("tracker:index")
 
 
-class DashboardOverviewView(LoginRequiredMixin, ListView):
-    template_name = "tracker/dashboard/overview.html"
-    model = Objective
+class DashboardView(LoginRequiredMixin, generic.TemplateView):
+    template_name = "tracker/dashboard.html"
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         data["navbar_active"] = "dashboard"
-        data["sidebar_active"] = "overview"
         return data
-
-    def get_queryset(self):
-        return Objective.objects.all()
 
 
 def objectives(request):
     if request.is_ajax():
-        objective_list = Objective.objects.all()
-        content = render_to_string("tracker/dashboard/objectives.html", {"objective_list": objective_list})
+        list = Objective.objects.all()
+        content = render_to_string("tracker/dashboard/objectives.html", {"objectives": list})
         return HttpResponse(content)
 
 
-class TimeEntryView(LoginRequiredMixin, FormView):
+def time_entries(request):
+    if request.is_ajax():
+        list = TimeEntry.objects.all()
+        content = render_to_string("tracker/dashboard/time-entries.html", {"time_entries": list})
+        return HttpResponse(content)
+
+
+class TimeEntryView(LoginRequiredMixin, generic.FormView):
     template_name = "tracker/entry.html"
     form_class = TimeEntryForm
 
@@ -116,6 +118,7 @@ class TimeEntryView(LoginRequiredMixin, FormView):
         effort = form.cleaned_data.get("effort")
 
         entry = TimeEntry(
+            user=self.request.user,
             objective=objective,
             explanation=explanation,
             effort=effort

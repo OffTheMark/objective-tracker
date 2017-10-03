@@ -18,7 +18,7 @@ class ObjectiveAdmin(admin.ModelAdmin):
 
 class TimeEntryAdmin(admin.ModelAdmin):
     date_hierarchy = "date_created"
-    list_display = ["explanation", "date_created"]
+    list_display = ["explanation", "user", "date_created"]
     list_filter = ["date_created"]
     search_fields = ["explanation"]
 

@@ -1,6 +1,8 @@
 from datetime import datetime
 from django.db import models
 
+from django.contrib.auth.models import User
+
 
 class Objective(models.Model):
     name = models.CharField(max_length=200)
@@ -25,6 +27,7 @@ class Objective(models.Model):
 
 
 class TimeEntry(models.Model):
+    user = models.ForeignKey(User, null=True)
     objective = models.ForeignKey(Objective, on_delete=models.CASCADE)
     explanation = models.TextField()
     effort = models.DecimalField(max_digits=6, decimal_places=2, default=0)

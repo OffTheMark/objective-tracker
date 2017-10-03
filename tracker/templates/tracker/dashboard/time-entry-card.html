@@ -1,77 +1,71 @@
 {% load humanize %}
 
-<div class="card objective mb-4">
+<div class="card time-entry mb-4">
     <div class="card-header text-right">
-        <div class="badge badge-primary">
-            Objective
+        <div class="badge badge-info">
+            Time Entry
         </div>
     </div>
     <div class="card-body">
-        <h5 class="card-title mb-0">
-             {{ objective.name }}
-        </h5>
-        {% if objective.description %}
-            <p class="card-text mt-2">
-                {{ objective.description }}
-            </p>
-        {% endif %}
+        <p class="card-text mb-1">
+            {{ entry.explanation }}
+        </p>
+        <p class="card-text text-muted">
+            Created by
+            <strong>
+                {{ entry.user }}
+            </strong>
+        </p>
     </div>
     <ul class="list-group list-group-flush">
         <li class="list-group-item">
             <div class="row">
                 <div class="col-6 d-none d-sm-block">
                     <strong>
-                        Completed
+                        Objective
                     </strong>
                 </div>
                 <div class="col-6 d-none d-sm-block text-right">
-                    {{ objective.total_effort|floatformat }} hours
+                    {{ entry.objective }}
                 </div>
                 <!-- Visible from sm and up -->
                 <div class="d-block d-sm-none col-12">
                     <strong>
-                        Completed
+                        Objective
                     </strong>
                 </div>
                 <div class="d-block d-sm-none col-12">
-                    {{ objective.total_effort|floatformat }} hours
+                    {{ entry.objective }}
                 </div>
                 <!-- Visible only in xs -->
             </div>
+        </li>
+        <li class="list-group-item">
             <div class="row">
                 <div class="col-6 d-none d-sm-block">
                     <strong>
-                        Target
+                        Effort
                     </strong>
                 </div>
                 <div class="col-6 d-none d-sm-block text-right">
-                    {{ objective.target|floatformat }} hours
+                    {{ entry.effort|floatformat }} hours
                 </div>
                 <!-- Visible from sm and up -->
                 <div class="d-block d-sm-none col-12">
                     <strong>
-                        Target
+                        Effort
                     </strong>
                 </div>
                 <div class="d-block d-sm-none col-12">
-                    {{ objective.target|floatformat }} hours
+                    {{ entry.effort|floatformat }} hours
                 </div>
                 <!-- Visible only in xs -->
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="progress mt-2 mb-2">
-                        <div class="progress-bar {% if objective.is_reached %}bg-success{% endif %}" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"
-                                {% if objective.progression > 0 %} style="width: {% if not objective.is_reached %}{{ objective.progression }}{% else %}100{% endif %}%"{% endif %}>
-                        </div>
-                    </div>
-                </div>
             </div>
         </li>
     </ul>
     <div class="card-footer">
         <div class="text-muted text-center">
-            Created {{ objective.date_created|naturaltime }}
+            Created {{ entry.date_created|naturaltime }}
         </div>
     </div>
 </div>
