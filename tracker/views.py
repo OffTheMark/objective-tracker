@@ -116,6 +116,7 @@ class TimeEntryView(LoginRequiredMixin, FormView):
         effort = form.cleaned_data.get("effort")
 
         entry = TimeEntry(
+            user=self.request.user,
             objective=objective,
             explanation=explanation,
             effort=effort
