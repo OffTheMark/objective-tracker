@@ -103,7 +103,7 @@ def objectives(request):
 
 def time_entries(request):
     if request.is_ajax():
-        list = TimeEntry.objects.all()
+        list = TimeEntry.objects.all()[:10]
         content = render_to_string("tracker/dashboard/time-entries.html", {"time_entries": list})
         return HttpResponse(content)
 
