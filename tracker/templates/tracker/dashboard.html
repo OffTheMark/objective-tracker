@@ -1,0 +1,72 @@
+{% extends "tracker/base.html" %}
+
+{% load static %}
+
+{% block template_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'tracker/css/dashboard.css' %}" />
+{% endblock %}
+
+{% block template_content %}
+    <div class="container">
+        <div class="main">
+            <div class="row">
+                <div class="col-12">
+                    <h1>Dashboard</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <h2>Objectives</h2>
+                    <div class="objectives"></div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <h2>Log</h2>
+                    <div class="log"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block template_js %}
+<script type="text/javascript">
+    $(function () {
+        var fadeInterval = 600;
+        var reloadInterval = 30000;
+
+        function reloadObjectives() {
+            $.ajax({
+                type: "GET",
+                url: "{% url "tracker:dashboard/objectives" %}",
+                success: function(data) {
+                    var $objectives = $(".objectives");
+                    $objectives
+                        .fadeOut(fadeInterval, function() {
+                            $objectives
+                                .html(data)
+                                .fadeIn(fadeInterval);
+                        });
+                }
+            });
+        }
+
+        function reloadLog() {
+            $.ajax({
+                type: "GET",
+                url: "{% url "tracker:dashboard/time-entries" %}",
+                success: function(data) {
+                    var $log = $(".log");
+                    $log.fadeOut(fadeInterval, function() {
+                        $log.html(data).fadeIn(fadeInterval);
+                    });
+                }
+            });
+        }
+
+        reloadLog();
+        reloadObjectives();
+        setInterval(reloadLog, reloadInterval);
+        setInterval(reloadObjectives, reloadInterval);
+    });
+</script>
+{% endblock %}
