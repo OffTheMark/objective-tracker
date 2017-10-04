@@ -129,6 +129,7 @@ class TimeEntryForm(forms.Form):
                 "class": "form-control",
                 "step": "0.5",
                 "min": "0",
+                "max": "24"
             }
         )
     )
