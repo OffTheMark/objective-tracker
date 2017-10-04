@@ -1,13 +1,25 @@
 from datetime import datetime
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 from django.contrib.auth.models import User
 
 
 class Objective(models.Model):
-    name = models.CharField(max_length=200)
-    description = models.TextField(blank=True)
-    target = models.DecimalField(max_digits=6, decimal_places=2, default=0)
+    name = models.CharField(
+        max_length=200
+    )
+    description = models.TextField(
+        blank=True
+    )
+    target = models.DecimalField(
+        max_digits=6,
+        decimal_places=2,
+        default=0,
+        validators=[
+            MinValueValidator(0)
+        ]
+    )
     date_created = models.DateTimeField(default=datetime.now)
 
     def total_effort(self):
@@ -27,11 +39,27 @@ class Objective(models.Model):
 
 
 class TimeEntry(models.Model):
-    user = models.ForeignKey(User, null=True)
-    objective = models.ForeignKey(Objective, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        User,
+        null=True
+    )
+    objective = models.ForeignKey(
+        Objective,
+        on_delete=models.CASCADE
+    )
     explanation = models.TextField()
-    effort = models.DecimalField(max_digits=6, decimal_places=2, default=0)
-    date_created = models.DateTimeField(default=datetime.now)
+    effort = models.DecimalField(
+        max_digits=6,
+        decimal_places=2,
+        default=0,
+        validators=[
+            MinValueValidator(0),
+            MaxValueValidator(24)
+        ]
+    )
+    date_created = models.DateTimeField(
+        default=datetime.now
+    )
 
     def __str__(self):
         return self.explanation
