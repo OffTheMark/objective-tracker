@@ -1,17 +1,21 @@
 {% load humanize %}
 
 <div class="card objective mb-4">
-    <div class="card-header text-right">
-        <div class="badge badge-primary">
-            Objective
-        </div>
+    <div class="card-header bg-primary text-white">
+        Objective
     </div>
     <div class="card-body">
-        <h5 class="card-title mb-0">
-             {{ objective.name }}
-        </h5>
+        <p class="card-text text-muted mb-0">
+            Objective
+        </p>
+        <p class="card-text mb-0">
+            {{ objective.name }}
+        </p>
         {% if objective.description %}
-            <p class="card-text mt-2">
+            <p class="card-text text-muted mt-2 mb-0">
+                Description
+            </p>
+            <p class="card-text mb-0">
                 {{ objective.description }}
             </p>
         {% endif %}

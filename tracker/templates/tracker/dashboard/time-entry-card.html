@@ -1,45 +1,30 @@
 {% load humanize %}
 
 <div class="card time-entry mb-4">
-    <div class="card-header text-right">
-        <div class="badge badge-info">
-            Time Entry
-        </div>
+    <div class="card-header bg-info text-white">
+        Time Entry
     </div>
     <div class="card-body">
-        <p class="card-text mb-1">
+        <p class="card-text text-muted mb-0">
+            Explanation
+        </p>
+        <p class="card-text mb-0">
             {{ entry.explanation }}
         </p>
-        <p class="card-text text-muted">
+        <p class="card-text text-muted mt-2 mb-0">
+            Objective
+        </p>
+        <p class="card-text mb-0">
+            {{ entry.objective }}
+        </p>
+        <p class="card-text text-muted mt-2 mb-0">
             Created by
-            <strong>
-                {{ entry.user }}
-            </strong>
+        </p>
+        <p class="card-text mb-0">
+            {{ entry.user }}
         </p>
     </div>
     <ul class="list-group list-group-flush">
-        <li class="list-group-item">
-            <div class="row">
-                <div class="col-6 d-none d-sm-block">
-                    <strong>
-                        Objective
-                    </strong>
-                </div>
-                <div class="col-6 d-none d-sm-block text-right">
-                    {{ entry.objective }}
-                </div>
-                <!-- Visible from sm and up -->
-                <div class="d-block d-sm-none col-12">
-                    <strong>
-                        Objective
-                    </strong>
-                </div>
-                <div class="d-block d-sm-none col-12">
-                    {{ entry.objective }}
-                </div>
-                <!-- Visible only in xs -->
-            </div>
-        </li>
         <li class="list-group-item">
             <div class="row">
                 <div class="col-6 d-none d-sm-block">
