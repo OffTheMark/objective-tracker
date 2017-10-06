@@ -1,0 +1,26 @@
+.main {
+    margin-top: 20px;
+}
+
+.form-signin-heading {
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.form-signin .form-control {
+    box-sizing: border-box;
+    height: auto;
+}
+
+.form-signin .form-group input:first-child {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    margin-bottom: -1px;
+}
+
+
+.form-signin .form-group input:last-child {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    margin-bottom: 20px;
+}

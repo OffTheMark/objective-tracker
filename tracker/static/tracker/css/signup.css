@@ -1,0 +1,25 @@
+.main {
+    margin-top: 20px;
+}
+
+.form-signup-heading {
+    margin-bottom: 20px;
+}
+
+.form-signup .form-control {
+    box-sizing: border-box;
+    height: auto;
+}
+
+.form-signup .form-group input:first-child {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    margin-bottom: -1px;
+}
+
+
+.form-signup .form-group input:last-child {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    margin-bottom: 20px;
+}
