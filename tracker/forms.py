@@ -105,7 +105,7 @@ class SignupForm(forms.Form):
 class TimeEntryForm(forms.Form):
     objective = forms.ModelChoiceField(
         queryset=Objective.objects,
-        empty_label="None",
+        empty_label="Select an objective",
         widget=forms.Select(
             attrs={
                 "class": "form-control custom-select",
