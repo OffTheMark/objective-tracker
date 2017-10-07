@@ -134,3 +134,8 @@ class TimeEntryView(LoginRequiredMixin, generic.FormView):
 
     def get_success_url(self):
         return reverse("tracker:entry")
+
+
+class ObjectiveView(LoginRequiredMixin, generic.DetailView):
+    template_name = "tracker/objective.html"
+    model = Objective

@@ -1,0 +1,37 @@
+{% load humanize %}
+
+<div class="card time-entry mb-4">
+    <div class="card-body">
+        <p class="card-text text-muted mb-0">
+            Explanation
+        </p>
+        <p class="card-text mb-0">
+            {{ entry.explanation }}
+        </p>
+        <p class="card-text text-muted mt-2 mb-0">
+            Created by
+        </p>
+        <p class="card-text mb-0">
+            {{ entry.user }}
+        </p>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col-6">
+                    <strong>
+                        Effort
+                    </strong>
+                </div>
+                <div class="col-6 text-right">
+                    {{ entry.effort|floatformat }} hours
+                </div>
+            </div>
+        </li>
+    </ul>
+    <div class="card-footer">
+        <div class="text-muted text-center">
+            Created on {{ entry.date_created|date:"F d, Y" }} ({{ entry.date_created|naturaltime }})
+        </div>
+    </div>
+</div>
