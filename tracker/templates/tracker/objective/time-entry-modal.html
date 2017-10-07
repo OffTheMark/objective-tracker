@@ -1,0 +1,50 @@
+<div class="modal fade" id="timeEntryModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="modal-title">
+                    Add time entry
+                </p>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="timeEntryForm" method="post" action="{% url 'tracker:objective/entry' objective.id %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label>
+                            Objective
+                        </label>
+                        <div>
+                            {{ objective.name }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.explanation.id_for_label }}">
+                            Explanation
+                        </label>
+                        {{ form.explanation }}
+                    </div>
+                    <div class="form-group row">
+                        <label for="{{ form.effort.id_for_label }}" class="col-sm-6 col-md-8 col-form-label">
+                            Effort (hours)
+                        </label>
+                        <div class="col-xs-6 col-sm-6 col-md-4">
+                            {{ form.effort }}
+                        </div>
+                    </div>
+                    <input id="hiddenSubmitTimeEntry" type="submit" class="d-none">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    Close
+                </button>
+                <button id="submitTimeEntry" type="button" class="btn btn-primary">
+                    Submit
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

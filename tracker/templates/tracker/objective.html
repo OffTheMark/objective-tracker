@@ -26,7 +26,7 @@
                                 {{ objective.description }}
                             </p>
                         {% endif %}
-                    <hr>
+                        <hr>
                         <p class="mb-0">
                             Created on {{ objective.date_created|date:"F d, Y" }} ({{ objective.date_created|naturaltime }})
                         </p>
@@ -66,25 +66,48 @@
                     </div>
                     <hr>
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col">
                             <h2>
                                 Time entries
                             </h2>
-                            {% if objective.timeentry_set %}
-                                <div class="card-deck">
-                                    {% for entry in objective.timeentry_set.all|dictsortreversed:"date_created" %}
-                                        {% include "tracker/objective/time-entry-card.html" %}
-                                    {% endfor %}
+                            <div class="row mb-2">
+                                <div class="col">
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#timeEntryModal">
+                                        Add time entry
+                                    </button>
                                 </div>
-                            {% else %}
-                                <div class="alert alert-secondary text-center" role="alert">
-                                    No associated time entries.
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                {% if objective.timeentry_set %}
+                                    <div class="card-deck">
+                                        {% for entry in objective.timeentry_set.all|dictsortreversed:"date_created" %}
+                                            {% include "tracker/objective/time-entry-card.html" %}
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    <div class="alert alert-secondary text-center" role="alert">
+                                        No associated time entries.
+                                    </div>
+                                {% endif %}
                                 </div>
-                            {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    {% include "tracker/objective/time-entry-modal.html" %}
+{% endblock %}
+
+{% block template_js %}
+<script type="text/javascript">
+    $(function() {
+        $("#submitTimeEntry").click(function() {
+            $("#hiddenSubmitTimeEntry").click();
+        });
+    });
+</script>
 {% endblock %}

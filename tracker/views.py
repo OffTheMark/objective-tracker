@@ -6,7 +6,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.views import generic
 
-from .forms import SigninForm, SignupForm, TimeEntryForm
+from .forms import SigninForm, SignupForm, TimeEntryForm, TimeEntryObjectiveForm
 from .models import Objective, TimeEntry
 
 
@@ -108,7 +108,7 @@ def dashboard_time_entries(request):
         return HttpResponse(content)
 
 
-class TimeEntryView(LoginRequiredMixin, generic.FormView):
+class TimeEntryFormView(LoginRequiredMixin, generic.FormView):
     template_name = "tracker/entry.html"
     form_class = TimeEntryForm
 
@@ -139,3 +139,33 @@ class TimeEntryView(LoginRequiredMixin, generic.FormView):
 class ObjectiveView(LoginRequiredMixin, generic.DetailView):
     template_name = "tracker/objective.html"
     model = Objective
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data["form"] = TimeEntryObjectiveForm()
+        return data
+
+
+class TimeEntryObjectiveFormView(LoginRequiredMixin, generic.FormView):
+    template_name = "tracker/objective/time-entry-modal.html"
+    form_class = TimeEntryObjectiveForm
+
+    def form_valid(self, form):
+        explanation = form.cleaned_data.get("explanation")
+        effort = form.cleaned_data.get("effort")
+
+        objective_id = self.kwargs["objective"]
+        objective = Objective.objects.get(pk=objective_id)
+
+        entry = TimeEntry(
+            user=self.request.user,
+            objective=objective,
+            explanation=explanation,
+            effort=effort
+        )
+        entry.save()
+
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse("tracker:objective", kwargs={"pk": self.kwargs["objective"]})
