@@ -6,7 +6,7 @@
     </div>
     <div class="card-body">
         <p class="card-text text-muted mb-0">
-            Objective
+            Name
         </p>
         <p class="card-text mb-0">
             {{ objective.name }}
@@ -23,44 +23,22 @@
     <ul class="list-group list-group-flush">
         <li class="list-group-item">
             <div class="row">
-                <div class="col-6 d-none d-sm-block">
+                <div class="col-6">
                     <strong>
                         Completed
                     </strong>
                 </div>
-                <div class="col-6 d-none d-sm-block text-right">
+                <div class="col-6 text-right">
                     {{ objective.total_effort|floatformat }} hours
                 </div>
-                <!-- Visible from sm and up -->
-                <div class="d-block d-sm-none col-12">
-                    <strong>
-                        Completed
-                    </strong>
-                </div>
-                <div class="d-block d-sm-none col-12">
-                    {{ objective.total_effort|floatformat }} hours
-                </div>
-                <!-- Visible only in xs -->
-            </div>
-            <div class="row">
-                <div class="col-6 d-none d-sm-block">
+                <div class="col-6">
                     <strong>
                         Target
                     </strong>
                 </div>
-                <div class="col-6 d-none d-sm-block text-right">
+                <div class="col-6 text-right">
                     {{ objective.target|floatformat }} hours
                 </div>
-                <!-- Visible from sm and up -->
-                <div class="d-block d-sm-none col-12">
-                    <strong>
-                        Target
-                    </strong>
-                </div>
-                <div class="d-block d-sm-none col-12">
-                    {{ objective.target|floatformat }} hours
-                </div>
-                <!-- Visible only in xs -->
             </div>
             <div class="row">
                 <div class="col-12">
@@ -75,7 +53,7 @@
     </ul>
     <div class="card-footer">
         <div class="text-muted text-center">
-            Created {{ objective.date_created|naturaltime }}
+            Created on {{ objective.date_created|date:"F d, Y" }} ({{ objective.date_created|naturaltime }})
         </div>
     </div>
 </div>

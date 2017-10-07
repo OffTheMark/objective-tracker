@@ -27,30 +27,20 @@
     <ul class="list-group list-group-flush">
         <li class="list-group-item">
             <div class="row">
-                <div class="col-6 d-none d-sm-block">
+                <div class="col-6">
                     <strong>
                         Effort
                     </strong>
                 </div>
-                <div class="col-6 d-none d-sm-block text-right">
+                <div class="col-6 text-right">
                     {{ entry.effort|floatformat }} hours
                 </div>
-                <!-- Visible from sm and up -->
-                <div class="d-block d-sm-none col-12">
-                    <strong>
-                        Effort
-                    </strong>
-                </div>
-                <div class="d-block d-sm-none col-12">
-                    {{ entry.effort|floatformat }} hours
-                </div>
-                <!-- Visible only in xs -->
             </div>
         </li>
     </ul>
     <div class="card-footer">
         <div class="text-muted text-center">
-            Created {{ entry.date_created|naturaltime }}
+            Created on {{ entry.date_created|date:"F d, Y" }} ({{ entry.date_created|naturaltime }})
         </div>
     </div>
 </div>
