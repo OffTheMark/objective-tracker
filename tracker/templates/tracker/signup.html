@@ -9,8 +9,8 @@
 {% endblock %}
 
 {% block template_content %}
-    <div class="container">
-        <div class="row justify-content-center main">
+    <div class="container main">
+        <div class="row justify-content-center">
             <div class="col-md-6 col-sm-8 col-10">
                 <form method="post" class="form-signup" action="{% url 'tracker:signup' %}">
                     {% csrf_token %}

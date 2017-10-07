@@ -19,3 +19,7 @@ body > .container,
 body > .container-fluid {
     padding: 60px 0 0;
 }
+
+.main {
+    margin-top: 20px;
+}
