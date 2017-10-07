@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^signin/', views.SigninView.as_view(), name='signin'),
     url(r'^entry/$', views.TimeEntryView.as_view(), name="entry"),
     url(r'^dashboard/$', views.DashboardView.as_view(), name="dashboard"),
-    url(r'^dashboard/objectives/$', views.objectives, name="dashboard/objectives"),
-    url(r'^dashboard/time-entries/$', views.time_entries, name="dashboard/time-entries"),
+    url(r'^dashboard/objectives/$', views.dashboard_objectives, name="dashboard/objectives"),
+    url(r'^dashboard/time-entries/$', views.dashboard_time_entries, name="dashboard/time-entries"),
+    url(r'^objective/(?P<pk>[0-9]+)/', views.ObjectiveView.as_view(), name="objective"),
 ]

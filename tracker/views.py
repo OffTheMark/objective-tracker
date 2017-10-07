@@ -94,14 +94,14 @@ class DashboardView(LoginRequiredMixin, generic.TemplateView):
         return data
 
 
-def objectives(request):
+def dashboard_objectives(request):
     if request.is_ajax():
         list = Objective.objects.all().order_by("-date_created")
         content = render_to_string("tracker/dashboard/objectives.html", {"objectives": list})
         return HttpResponse(content)
 
 
-def time_entries(request):
+def dashboard_time_entries(request):
     if request.is_ajax():
         list = TimeEntry.objects.all().order_by("-date_created")[:20]
         content = render_to_string("tracker/dashboard/time-entries.html", {"time_entries": list})
