@@ -117,6 +117,7 @@ class TimeEntryForm(forms.Form):
             attrs={
                 "class": "form-control",
                 "placeholder": "Explanation",
+                "rows": "4"
             }
         )
     )
@@ -174,6 +175,7 @@ class TimeEntryObjectiveForm(forms.Form):
             attrs={
                 "class": "form-control",
                 "placeholder": "Explanation",
+                "rows": "4"
             }
         )
     )
