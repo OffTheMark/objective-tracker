@@ -6,7 +6,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.views import generic
 
-from .forms import SigninForm, SignupForm, TimeEntryForm, TimeEntryObjectiveForm
+from .forms import SigninForm, SignupForm, TimeEntryForm, UnauthenticatedTimeEntryForm, TimeEntryObjectiveForm
 from .models import Objective, TimeEntry
 
 
@@ -26,7 +26,7 @@ def index(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect(reverse("tracker:dashboard"))
     else:
-        return HttpResponseRedirect(reverse("tracker:signin"))
+        return HttpResponseRedirect(reverse("tracker:entry"))
 
 
 class SigninView(generic.FormView):
@@ -35,7 +35,7 @@ class SigninView(generic.FormView):
     redirect_field_name = "next"
 
     def form_valid(self, form):
-        username = form.cleaned_data.get("username")
+        username = form.cleaned_data.get("username_email")
         password = form.cleaned_data.get("password")
 
         user = get_user_by_email_or_username(username)
@@ -78,7 +78,7 @@ class SignupView(generic.FormView):
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
-        data["navbar_active"] = "signup"
+        data["navbar_active"] = "signin"
         return data
 
     def get_success_url(self):
@@ -108,17 +108,34 @@ def dashboard_time_entries(request):
         return HttpResponse(content)
 
 
-class TimeEntryFormView(LoginRequiredMixin, generic.FormView):
+class TimeEntryFormView(generic.FormView):
     template_name = "tracker/entry.html"
-    form_class = TimeEntryForm
+
+    def get_form_class(self):
+        if self.request.user.is_authenticated:
+            return TimeEntryForm
+        else:
+            return UnauthenticatedTimeEntryForm
+
+    def get_template_names(self):
+        if self.request.user.is_authenticated:
+            return ["tracker/entry.html"]
+        else:
+            return ["tracker/unauthenticated-entry.html"]
 
     def form_valid(self, form):
         objective = form.cleaned_data.get("objective")
         explanation = form.cleaned_data.get("explanation")
         effort = form.cleaned_data.get("effort")
 
+        if self.request.user.is_authenticated:
+            user = self.request.user
+        else:
+            username_email = form.cleaned_data.get("username_email")
+            user = get_user_by_email_or_username(username_email)
+
         entry = TimeEntry(
-            user=self.request.user,
+            user=user,
             objective=objective,
             explanation=explanation,
             effort=effort

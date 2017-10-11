@@ -4,6 +4,10 @@
 
 {% block title %}Time entry | Objective Tracker{% endblock %}
 
+{% block template_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'tracker/css/credentials-card.css' %}" />
+{% endblock %}
+
 {% block template_content %}
     <div class="container main">
         <div class="row justify-content-center">
@@ -29,6 +33,30 @@
                         </label>
                         <div class="col-xs-6 col-sm-4 col-6">
                             {{ form.effort }}
+                        </div>
+                    </div>
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger alert-dismissible fade show">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            {% for error in form.non_field_errors %}
+                                {% if forloop.counter > 1 %}
+                                    <hr>
+                                {% endif %}
+                                {{ error|escape }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <div class="card credentials-card mb-4">
+                        <div class="card-body">
+                            <p>
+                                Please enter your credentials to submit this time entry without signing in to your account.
+                            </p>
+                            <div class="form-group">
+                                {{ form.username_email }}
+                                {{ form.password }}
+                            </div>
                         </div>
                     </div>
                     <button class="btn btn-lg btn-primary btn-block" type="submit">
