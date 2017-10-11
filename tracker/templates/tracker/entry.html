@@ -4,13 +4,9 @@
 
 {% block title %}Time entry | Objective Tracker{% endblock %}
 
-{% block template_css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'tracker/css/entry.css' %}" />
-{% endblock %}
-
 {% block template_content %}
-    <div class="container">
-        <div class="row justify-content-center main">
+    <div class="container main">
+        <div class="row justify-content-center">
             <div class="col-sm-10 col-md-8 col-6">
                 <form method="post" class="form-entry" action="{% url 'tracker:entry' %}">
                     {% csrf_token %}

@@ -133,3 +133,27 @@ class TimeEntryForm(forms.Form):
             }
         )
     )
+
+
+class TimeEntryObjectiveForm(forms.Form):
+    explanation = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                "class": "form-control",
+                "placeholder": "Explanation",
+            }
+        )
+    )
+    effort = forms.DecimalField(
+        max_digits=6,
+        decimal_places=2,
+        min_value=0,
+        widget=forms.NumberInput(
+            attrs={
+                "class": "form-control",
+                "step": "0.5",
+                "min": "0",
+                "max": "24"
+            }
+        )
+    )

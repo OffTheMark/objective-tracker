@@ -1,21 +1,12 @@
 {% load humanize %}
 
 <div class="card time-entry mb-4">
-    <div class="card-header bg-info text-white">
-        Time Entry
-    </div>
     <div class="card-body">
         <p class="card-text text-muted mb-0">
             Explanation
         </p>
         <p class="card-text mb-0">
             {{ entry.explanation }}
-        </p>
-        <p class="card-text text-muted mt-2 mb-0">
-            Objective
-        </p>
-        <p class="card-text mb-0">
-            {{ entry.objective }}
         </p>
         <p class="card-text text-muted mt-2 mb-0">
             Created by
@@ -38,11 +29,6 @@
             </div>
         </li>
     </ul>
-    <div class="card-body">
-        <a href="{% url "tracker:objective" entry.objective.id %}" class="card-link">
-            View objective
-        </a>
-    </div>
     <div class="card-footer">
         <div class="text-muted text-center">
             Created on {{ entry.date_created|date:"F d, Y" }} ({{ entry.date_created|naturaltime }})
