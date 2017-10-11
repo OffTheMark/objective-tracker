@@ -30,7 +30,7 @@
             {% endif %}
             </ul>
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item mr-1">
+                <li class="nav-item mr-2">
                     <span class="navbar-text">
                         Welcome,
                         <strong>{{ user.username }}</strong>.
@@ -57,11 +57,6 @@
                 <li class="nav-item {% if navbar_active == "signin" %}active{% endif %}">
                     <a class="nav-link" href="{% url 'tracker:signin' %}">
                         Sign in
-                    </a>
-                </li>
-                <li class="nav-item {% if navbar_active == "signup" %}active{% endif %}">
-                    <a class="nav-link" href="{% url 'tracker:signup' %}">
-                        Sign up
                     </a>
                 </li>
             </ul>

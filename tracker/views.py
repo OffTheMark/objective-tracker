@@ -78,7 +78,7 @@ class SignupView(generic.FormView):
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
-        data["navbar_active"] = "signup"
+        data["navbar_active"] = "signin"
         return data
 
     def get_success_url(self):
