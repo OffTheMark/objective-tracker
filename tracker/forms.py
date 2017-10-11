@@ -17,7 +17,7 @@ def get_user_by_email_or_username(username_email):
 
 
 class SigninForm(forms.Form):
-    username = forms.CharField(
+    username_email = forms.CharField(
         max_length=254,
         widget=forms.TextInput(
             attrs={
@@ -38,7 +38,7 @@ class SigninForm(forms.Form):
 
     def clean(self):
         cleaned_data = super(SigninForm, self).clean()
-        username_email = cleaned_data.get("username")
+        username_email = cleaned_data.get("username_email")
         password = cleaned_data.get("password")
 
         user = get_user_by_email_or_username(username_email)

@@ -35,7 +35,7 @@ class SigninView(generic.FormView):
     redirect_field_name = "next"
 
     def form_valid(self, form):
-        username = form.cleaned_data.get("username")
+        username = form.cleaned_data.get("username_email")
         password = form.cleaned_data.get("password")
 
         user = get_user_by_email_or_username(username)
