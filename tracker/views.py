@@ -109,8 +109,6 @@ def dashboard_time_entries(request):
 
 
 class TimeEntryFormView(generic.FormView):
-    template_name = "tracker/entry.html"
-
     def get_form_class(self):
         if self.request.user.is_authenticated:
             return TimeEntryForm
@@ -119,9 +117,9 @@ class TimeEntryFormView(generic.FormView):
 
     def get_template_names(self):
         if self.request.user.is_authenticated:
-            return ["tracker/entry.html"]
+            return ["tracker/entry/authenticated.html"]
         else:
-            return ["tracker/unauthenticated-entry.html"]
+            return ["tracker/entry/unauthenticated.html"]
 
     def form_valid(self, form):
         objective = form.cleaned_data.get("objective")
