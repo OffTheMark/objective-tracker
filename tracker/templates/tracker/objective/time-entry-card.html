@@ -24,7 +24,9 @@
                     </strong>
                 </div>
                 <div class="col-6 text-right">
-                    {{ entry.effort|floatformat }} hours
+                    {% with effort=entry.effort %}
+                        {{ effort|floatformat }} hour{{ effort|pluralize }}
+                    {% endwith %}
                 </div>
             </div>
         </li>

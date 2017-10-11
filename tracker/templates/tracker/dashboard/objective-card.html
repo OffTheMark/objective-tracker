@@ -29,7 +29,9 @@
                     </strong>
                 </div>
                 <div class="col-6 text-right">
-                    {{ objective.total_effort|floatformat }} hours
+                    {% with total=objective.total_effort %}
+                        {{ total|floatformat }} hour{{ total|pluralize }}
+                    {% endwith %}
                 </div>
                 <div class="col-6">
                     <strong>
@@ -37,7 +39,9 @@
                     </strong>
                 </div>
                 <div class="col-6 text-right">
-                    {{ objective.target|floatformat }} hours
+                    {% with target=objective.target %}
+                        {{ target|floatformat }} hour{{ target|pluralize }}
+                    {% endwith %}
                 </div>
             </div>
             <div class="row">

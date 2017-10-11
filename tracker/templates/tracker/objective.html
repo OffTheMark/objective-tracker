@@ -38,7 +38,9 @@
                         </strong>
                     </div>
                     <div class="col-sm-6 col-md-3 text-right">
-                        {{ objective.total_effort|floatformat }} hours
+                        {% with total=objective.total_effort %}
+                            {{ total|floatformat }} hour{{ total|pluralize }}
+                        {% endwith %}
                     </div>
                     <div class="col-sm-6 col-md-3">
                         <strong>
@@ -46,7 +48,9 @@
                         </strong>
                     </div>
                     <div class="col-sm-6 col-md-3 text-right">
-                        {{ objective.target|floatformat }} hours
+                        {% with target=objective.target %}
+                            {{ target|floatformat }} hour{{ target|pluralize }}
+                        {% endwith %}
                     </div>
                 </div>
                 <div class="progress mt-2">
