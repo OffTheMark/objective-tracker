@@ -6,7 +6,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.views import generic
 
-from .forms import SigninForm, SignupForm, TimeEntryForm, TimeEntryObjectiveForm
+from .forms import SigninForm, SignupForm, TimeEntryForm, UnauthenticatedTimeEntryForm, TimeEntryObjectiveForm
 from .models import Objective, TimeEntry
 
 
@@ -26,7 +26,7 @@ def index(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect(reverse("tracker:dashboard"))
     else:
-        return HttpResponseRedirect(reverse("tracker:signin"))
+        return HttpResponseRedirect(reverse("tracker:entry"))
 
 
 class SigninView(generic.FormView):
@@ -108,17 +108,34 @@ def dashboard_time_entries(request):
         return HttpResponse(content)
 
 
-class TimeEntryFormView(LoginRequiredMixin, generic.FormView):
+class TimeEntryFormView(generic.FormView):
     template_name = "tracker/entry.html"
-    form_class = TimeEntryForm
+
+    def get_form_class(self):
+        if self.request.user.is_authenticated:
+            return TimeEntryForm
+        else:
+            return UnauthenticatedTimeEntryForm
+
+    def get_template_names(self):
+        if self.request.user.is_authenticated:
+            return ["tracker/entry.html"]
+        else:
+            return ["tracker/unauthenticated-entry.html"]
 
     def form_valid(self, form):
         objective = form.cleaned_data.get("objective")
         explanation = form.cleaned_data.get("explanation")
         effort = form.cleaned_data.get("effort")
 
+        if self.request.user.is_authenticated:
+            user = self.request.user
+        else:
+            username_email = form.cleaned_data.get("username_email")
+            user = get_user_by_email_or_username(username_email)
+
         entry = TimeEntry(
-            user=self.request.user,
+            user=user,
             objective=objective,
             explanation=explanation,
             effort=effort
