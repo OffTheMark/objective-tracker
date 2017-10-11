@@ -1,8 +1,13 @@
 version: '3'
 
+volumes:
+  data:
+
 services:
   db:
     image: postgres
+    volumes:
+    - data:/data
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
