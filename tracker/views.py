@@ -85,7 +85,7 @@ class SignupView(generic.FormView):
         return reverse("tracker:index")
 
 
-class DashboardView(LoginRequiredMixin, generic.TemplateView):
+class DashboardView(generic.TemplateView):
     template_name = "tracker/dashboard.html"
 
     def get_context_data(self, **kwargs):
