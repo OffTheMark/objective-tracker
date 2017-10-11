@@ -135,6 +135,39 @@ class TimeEntryForm(forms.Form):
     )
 
 
+class UnauthenticatedTimeEntryForm(TimeEntryForm):
+    username_email = forms.CharField(
+        max_length=254,
+        widget=forms.TextInput(
+            attrs={
+                "class": "form-control",
+                "placeholder": "Username or email address",
+            }
+        )
+    )
+    password = forms.CharField(
+        max_length=128,
+        widget=forms.PasswordInput(
+            attrs={
+                "class": "form-control",
+                "placeholder": "Password",
+            }
+        )
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        username_email = cleaned_data.get("username_email")
+        password = cleaned_data.get("password")
+
+        user = get_user_by_email_or_username(username_email)
+
+        if user is None:
+            raise forms.ValidationError("No user was found with the given username/email address.")
+        elif not user.check_password(password):
+            raise forms.ValidationError("Incorrect password.")
+
+
 class TimeEntryObjectiveForm(forms.Form):
     explanation = forms.CharField(
         widget=forms.Textarea(
