@@ -10,89 +10,84 @@
 {% endblock %}
 
 {% block template_content %}
-    <div class="container-fluid">
+    <div class="jumbotron">
+        <div class="container">
+            <h1>
+                {{ objective.name }}
+                <small class="text-muted">
+                Objective
+                </small>
+            </h1>
+            {% if objective.description %}
+                <p class="lead">
+                    {{ objective.description }}
+                </p>
+            {% endif %}
+            <hr>
+            <p class="mb-0">
+                Created on {{ objective.date_created|date:"F d, Y" }} ({{ objective.date_created|naturaltime }})
+            </p>
+        </div>
+    </div>
+    <div class="container">
         <div class="row">
             <div class="col">
-                <div class="jumbotron jumbotron-fluid">
-                    <div class="container">
-                        <h1>
-                            {{ objective.name }}
-                            <small class="text-muted">
-                            Objective
-                            </small>
-                        </h1>
-                        {% if objective.description %}
-                            <p class="lead">
-                                {{ objective.description }}
-                            </p>
-                        {% endif %}
-                        <hr>
-                        <p class="mb-0">
-                            Created on {{ objective.date_created|date:"F d, Y" }} ({{ objective.date_created|naturaltime }})
-                        </p>
+                <h2>
+                   Progress
+                </h2>
+                <div class="row">
+                    <div class="col-sm-6 col-md-3">
+                        <strong>
+                            Completed
+                        </strong>
+                    </div>
+                    <div class="col-sm-6 col-md-3 text-right">
+                        {{ objective.total_effort|floatformat }} hours
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <strong>
+                            Target
+                        </strong>
+                    </div>
+                    <div class="col-sm-6 col-md-3 text-right">
+                        {{ objective.target|floatformat }} hours
                     </div>
                 </div>
-                <div class="container">
-                    <div class="row">
-                        <div class="col">
-                            <h2>
-                               Progress
-                            </h2>
-                            <div class="row">
-                                <div class="col-sm-6 col-md-3">
-                                    <strong>
-                                        Completed
-                                    </strong>
-                                </div>
-                                <div class="col-sm-6 col-md-3 text-right">
-                                    {{ objective.total_effort|floatformat }} hours
-                                </div>
-                                <div class="col-sm-6 col-md-3">
-                                    <strong>
-                                        Target
-                                    </strong>
-                                </div>
-                                <div class="col-sm-6 col-md-3 text-right">
-                                    {{ objective.target|floatformat }} hours
-                                </div>
-                            </div>
-                            <div class="progress mt-2">
-                                <div class="progress-bar {% if objective.is_reached %}bg-success{% endif %}"
-                                     role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"
-                                        {% if objective.progression > 0 %} style="width: {% if not objective.is_reached %}{{ objective.progression }}{% else %}100{% endif %}%"{% endif %}>
-                                </div>
-                            </div>
-                        </div>
+                <div class="progress mt-2">
+                    <div class="progress-bar {% if objective.is_reached %}bg-success{% endif %}"
+                         role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"
+                            {% if objective.progression > 0 %} style="width: {% if not objective.is_reached %}{{ objective.progression }}{% else %}100{% endif %}%"{% endif %}>
                     </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col">
-                            <h2>
-                                Time entries
-                            </h2>
-                            <div class="row mb-2">
-                                <div class="col">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#timeEntryModal">
-                                        Add time entry
-                                    </button>
-                                </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col">
+                <h2>
+                    Time entries
+                </h2>
+                <div class="row mb-2">
+                    <div class="col">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#timeEntryModal">
+                            Add time entry
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    {% if objective.timeentry_set.all %}
+                        {% for entry in objective.timeentry_set.all|dictsortreversed:"date_created" %}
+                            <div class="col-sm-4">
+                                {% include "tracker/objective/time-entry-card.html" %}
                             </div>
-                            <div class="row">
-                                <div class="col">
-                                {% if objective.timeentry_set %}
-                                    <div class="card-deck">
-                                        {% for entry in objective.timeentry_set.all|dictsortreversed:"date_created" %}
-                                            {% include "tracker/objective/time-entry-card.html" %}
-                                        {% endfor %}
-                                    </div>
-                                {% else %}
-                                    <div class="alert alert-secondary text-center" role="alert">
-                                        No associated time entries.
-                                    </div>
-                                {% endif %}
-                                </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="col">
+                            <div class="alert alert-secondary text-center" role="alert">
+                                No associated time entries.
                             </div>
                         </div>
+                    {% endif %}
                     </div>
                 </div>
             </div>
