@@ -23,10 +23,7 @@ def get_user_by_email_or_username(username_email):
 
 
 def index(request):
-    if request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("tracker:dashboard"))
-    else:
-        return HttpResponseRedirect(reverse("tracker:entry"))
+    return HttpResponseRedirect(reverse("tracker:dashboard"))
 
 
 class SigninView(generic.FormView):
