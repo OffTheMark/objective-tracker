@@ -8,12 +8,14 @@
         <p class="card-text mb-0">
             {{ entry.explanation }}
         </p>
-        <p class="card-text text-muted mt-2 mb-0">
-            Created by
-        </p>
-        <p class="card-text mb-0">
-            {{ entry.user }}
-        </p>
+        {% if entry.get_submitter %}
+            <p class="card-text text-muted mt-2 mb-0">
+                Created by
+            </p>
+            <p class="card-text mb-0">
+                {{ entry.get_submitter }}
+            </p>
+        {% endif %}
     </div>
     <ul class="list-group list-group-flush">
         <li class="list-group-item">

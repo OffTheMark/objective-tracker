@@ -57,9 +57,18 @@ class TimeEntry(models.Model):
             MaxValueValidator(24)
         ]
     )
+    submitter = models.TextField(
+        null=True
+    )
     date_created = models.DateTimeField(
         default=datetime.now
     )
+
+    def get_submitter(self):
+        if self.user:
+            return self.user.username
+        else:
+            return self.submitter
 
     def __str__(self):
         return self.explanation
