@@ -6,7 +6,6 @@ RUN mkdir /code
 WORKDIR /code
 
 ADD requirements.txt /code/
-COPY ./entrypoint.sh /
 ADD . /code/
 
 RUN pip install -r requirements.txt
