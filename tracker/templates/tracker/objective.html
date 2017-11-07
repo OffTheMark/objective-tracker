@@ -94,7 +94,12 @@
         </div>
     </div>
 
-    {% include "tracker/objective/time-entry-modal.html" %}
+    {% if user.is_authenticated %}
+        {% include "tracker/objective/time-entry-modal/authenticated.html" %}
+    {% else %}
+        {% include "tracker/objective/time-entry-modal/unauthenticated.html" %}
+    {% endif %}
+
 {% endblock %}
 
 {% block template_js %}

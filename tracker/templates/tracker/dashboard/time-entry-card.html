@@ -17,12 +17,14 @@
         <p class="card-text mb-0">
             {{ entry.objective }}
         </p>
-        <p class="card-text text-muted mt-2 mb-0">
-            Created by
-        </p>
-        <p class="card-text mb-0">
-            {{ entry.user }}
-        </p>
+        {% if entry.get_submitter %}
+            <p class="card-text text-muted mt-2 mb-0">
+                Created by
+            </p>
+            <p class="card-text mb-0">
+                {{ entry.get_submitter }}
+            </p>
+        {% endif %}
     </div>
     <ul class="list-group list-group-flush">
         <li class="list-group-item">
@@ -40,13 +42,11 @@
             </div>
         </li>
     </ul>
-    {% if user.is_authenticated %}
-        <div class="card-body">
-            <a href="{% url "tracker:objective" entry.objective.id %}" class="card-link">
-                View objective
-            </a>
-        </div>
-    {% endif %}
+    <div class="card-body">
+        <a href="{% url "tracker:objective" entry.objective.id %}" class="card-link">
+            View objective
+        </a>
+    </div>
     <div class="card-footer">
         <div class="text-muted text-center">
             Created on {{ entry.date_created|date:"F d, Y" }} ({{ entry.date_created|naturaltime }})

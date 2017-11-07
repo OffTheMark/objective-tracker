@@ -55,13 +55,11 @@
             </div>
         </li>
     </ul>
-    {% if user.is_authenticated %}
-        <div class="card-body">
-            <a href="{% url "tracker:objective" objective.id %}" class="card-link">
-                View details
-            </a>
-        </div>
-    {% endif %}
+    <div class="card-body">
+        <a href="{% url "tracker:objective" objective.id %}" class="card-link">
+            View details
+        </a>
+    </div>
     <div class="card-footer">
         <div class="text-muted text-center">
             Created on {{ objective.date_created|date:"F d, Y" }} ({{ objective.date_created|naturaltime }})

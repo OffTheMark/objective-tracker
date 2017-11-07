@@ -1,35 +1,24 @@
-{% extends "tracker/base.html" %}
-
-{% load static %}
-
-{% block title %}Time entry | Objective Tracker{% endblock %}
-
-{% block template_css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'tracker/css/credentials-card.css' %}" />
-{% endblock %}
-
-{% block template_content %}
-    <div class="jumbotron">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6">
-                    <h1>
-                        Time entry
-                    </h1>
-                </div>
+<div class="modal fade" id="timeEntryModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="modal-title">
+                    Add time entry
+                </p>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-        </div>
-    </div>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6">
-                <form method="post" class="form-entry" action="{% url 'tracker:entry' %}">
+            <div class="modal-body">
+                <form id="timeEntryForm" method="post" action="{% url 'tracker:objective/entry' objective.id %}">
                     {% csrf_token %}
                     <div class="form-group">
-                        <label for="{{ form.objective.id_for_label }}">
+                        <label>
                             Objective
                         </label>
-                        {{ form.objective }}
+                        <div>
+                            {{ objective.name }}
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="{{ form.explanation.id_for_label }}">
@@ -51,11 +40,17 @@
                         </label>
                         {{ form.submitter }}
                     </div>
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">
-                        Submit
-                    </button>
+                    <input id="hiddenSubmitTimeEntry" type="submit" class="d-none">
                 </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    Close
+                </button>
+                <button id="submitTimeEntry" type="button" class="btn btn-primary">
+                    Submit
+                </button>
             </div>
         </div>
     </div>
-{% endblock %}
+</div>

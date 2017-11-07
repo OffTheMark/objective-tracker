@@ -6,7 +6,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.views import generic
 
-from .forms import SigninForm, SignupForm, TimeEntryForm, UnauthenticatedTimeEntryForm, TimeEntryObjectiveForm
+from .forms import SigninForm, SignupForm, TimeEntryForm, TimeEntryObjectiveForm
 from .models import Objective, TimeEntry
 
 
@@ -106,11 +106,7 @@ def dashboard_time_entries(request):
 
 
 class TimeEntryFormView(generic.FormView):
-    def get_form_class(self):
-        if self.request.user.is_authenticated:
-            return TimeEntryForm
-        else:
-            return UnauthenticatedTimeEntryForm
+    form_class = TimeEntryForm
 
     def get_template_names(self):
         if self.request.user.is_authenticated:
@@ -123,17 +119,20 @@ class TimeEntryFormView(generic.FormView):
         explanation = form.cleaned_data.get("explanation")
         effort = form.cleaned_data.get("effort")
 
+        user = None
+        submitter = None
+
         if self.request.user.is_authenticated:
             user = self.request.user
         else:
-            username_email = form.cleaned_data.get("username_email")
-            user = get_user_by_email_or_username(username_email)
+            submitter = form.cleaned_data.get("submitter")
 
         entry = TimeEntry(
             user=user,
             objective=objective,
             explanation=explanation,
-            effort=effort
+            effort=effort,
+            submitter=submitter
         )
         entry.save()
 
@@ -148,7 +147,7 @@ class TimeEntryFormView(generic.FormView):
         return reverse("tracker:entry")
 
 
-class ObjectiveView(LoginRequiredMixin, generic.DetailView):
+class ObjectiveView(generic.DetailView):
     template_name = "tracker/objective.html"
     model = Objective
 
@@ -158,7 +157,7 @@ class ObjectiveView(LoginRequiredMixin, generic.DetailView):
         return data
 
 
-class TimeEntryObjectiveFormView(LoginRequiredMixin, generic.FormView):
+class TimeEntryObjectiveFormView(generic.FormView):
     template_name = "tracker/objective/time-entry-modal.html"
     form_class = TimeEntryObjectiveForm
 
@@ -169,11 +168,20 @@ class TimeEntryObjectiveFormView(LoginRequiredMixin, generic.FormView):
         objective_id = self.kwargs["objective"]
         objective = Objective.objects.get(pk=objective_id)
 
+        user = None
+        submitter = None
+
+        if self.request.user.is_authenticated:
+            user = self.request.user
+        else:
+            submitter = form.cleaned_data.get("submitter")
+
         entry = TimeEntry(
-            user=self.request.user,
+            user=user,
             objective=objective,
             explanation=explanation,
-            effort=effort
+            effort=effort,
+            submitter=submitter
         )
         entry.save()
 
