@@ -9,3 +9,12 @@ body {
     padding-bottom: 2rem;
     margin-bottom: 1rem;
 }
+
+.navbar-dark a.nav-link {
+    color: white !important;
+}
+
+.navbar-dark li.nav-item.active a.nav-link {
+    border : 1px solid white;
+    border-radius: 5px;
+}
