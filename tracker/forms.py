@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 
-from .models import Objective
+from .models import TimeEntry
 
 
 def get_user_by_email_or_username(username_email):
@@ -102,48 +102,42 @@ class SignupForm(forms.Form):
             raise forms.ValidationError("Passwords don't match.")
 
 
-class TimeEntryForm(forms.Form):
-    objective = forms.ModelChoiceField(
-        queryset=Objective.objects,
-        empty_label="Select an objective",
-        widget=forms.Select(
-            attrs={
-                "class": "form-control custom-select",
-            }
-        )
-    )
-    explanation = forms.CharField(
-        widget=forms.Textarea(
-            attrs={
-                "class": "form-control",
-                "placeholder": "Explanation",
-                "rows": "4"
-            }
-        )
-    )
-    effort = forms.DecimalField(
-        max_digits=6,
-        decimal_places=2,
-        min_value=0,
-        widget=forms.NumberInput(
-            attrs={
-                "class": "form-control",
-                "step": "0.5",
-                "min": "0",
-                "max": "24"
-            }
-        )
-    )
-    submitter = forms.CharField(
-        max_length=254,
-        required=False,
-        widget=forms.TextInput(
-            attrs={
-                "class": "form-control",
-                "placeholder": "Submitter",
-            }
-        )
-    )
+class TimeEntryForm(forms.ModelForm):
+    class Meta:
+        model = TimeEntry
+        fields = ["objective", "explanation", "effort", "submitter"]
+        widgets = {
+            "objective": forms.Select(
+                attrs={
+                    "class": "form-control custom-select",
+                }
+            ),
+            "explanation": forms.Textarea(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Explanation",
+                    "rows": "4"
+                }
+            ),
+            "effort": forms.NumberInput(
+                attrs={
+                    "class": "form-control",
+                    "step": "0.5",
+                    "min": "0",
+                    "max": "24"
+                }
+            ),
+            "submitter": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Submitter",
+                }
+            )
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(TimeEntryForm, self).__init__(*args, **kwargs)
+        self.fields['objective'].empty_label = "Select an objective"
 
 
 class TimeEntryObjectiveForm(forms.Form):

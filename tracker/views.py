@@ -1,5 +1,4 @@
 from django.contrib.auth import login, logout
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template.loader import render_to_string
@@ -105,20 +104,12 @@ def dashboard_time_entries(request):
         return HttpResponse(content)
 
 
-class TimeEntryFormView(generic.FormView):
+class TimeEntryFormView(generic.CreateView):
     form_class = TimeEntryForm
-
-    def get_template_names(self):
-        if self.request.user.is_authenticated:
-            return ["tracker/entry/authenticated.html"]
-        else:
-            return ["tracker/entry/unauthenticated.html"]
+    template_name = "tracker/entry.html"
+    model = TimeEntry
 
     def form_valid(self, form):
-        objective = form.cleaned_data.get("objective")
-        explanation = form.cleaned_data.get("explanation")
-        effort = form.cleaned_data.get("effort")
-
         user = None
         submitter = None
 
@@ -127,14 +118,8 @@ class TimeEntryFormView(generic.FormView):
         else:
             submitter = form.cleaned_data.get("submitter")
 
-        entry = TimeEntry(
-            user=user,
-            objective=objective,
-            explanation=explanation,
-            effort=effort,
-            submitter=submitter
-        )
-        entry.save()
+        form.instance.user = user
+        form.instance.submitter = submitter
 
         return super().form_valid(form)
 
