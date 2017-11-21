@@ -1,5 +1,4 @@
 from django.contrib.auth import login, logout
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template.loader import render_to_string
@@ -88,6 +87,9 @@ class DashboardView(generic.TemplateView):
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         data["navbar_active"] = "dashboard"
+        new_entry = self.request.GET.get("new_entry")
+        if new_entry is not None:
+            data["new_entry"] = TimeEntry.objects.get(pk=new_entry)
         return data
 
 
@@ -105,20 +107,12 @@ def dashboard_time_entries(request):
         return HttpResponse(content)
 
 
-class TimeEntryFormView(generic.FormView):
+class TimeEntryFormView(generic.CreateView):
     form_class = TimeEntryForm
-
-    def get_template_names(self):
-        if self.request.user.is_authenticated:
-            return ["tracker/entry/authenticated.html"]
-        else:
-            return ["tracker/entry/unauthenticated.html"]
+    template_name = "tracker/entry.html"
+    model = TimeEntry
 
     def form_valid(self, form):
-        objective = form.cleaned_data.get("objective")
-        explanation = form.cleaned_data.get("explanation")
-        effort = form.cleaned_data.get("effort")
-
         user = None
         submitter = None
 
@@ -127,14 +121,8 @@ class TimeEntryFormView(generic.FormView):
         else:
             submitter = form.cleaned_data.get("submitter")
 
-        entry = TimeEntry(
-            user=user,
-            objective=objective,
-            explanation=explanation,
-            effort=effort,
-            submitter=submitter
-        )
-        entry.save()
+        form.instance.user = user
+        form.instance.submitter = submitter
 
         return super().form_valid(form)
 
@@ -144,7 +132,7 @@ class TimeEntryFormView(generic.FormView):
         return data
 
     def get_success_url(self):
-        return reverse("tracker:entry")
+        return reverse("tracker:dashboard") + "?new_entry={}".format(self.object.id)
 
 
 class ObjectiveView(generic.DetailView):

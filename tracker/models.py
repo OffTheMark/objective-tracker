@@ -58,7 +58,8 @@ class TimeEntry(models.Model):
         ]
     )
     submitter = models.TextField(
-        null=True
+        null=True,
+        blank=True
     )
     date_created = models.DateTimeField(
         default=datetime.now

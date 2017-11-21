@@ -9,7 +9,7 @@
             Explanation
         </p>
         <p class="card-text mb-0">
-            {{ entry.explanation }}
+            {{ entry.explanation|linebreaks|truncatewords:50 }}
         </p>
         <p class="card-text text-muted mt-2 mb-0">
             Objective
@@ -41,15 +41,20 @@
                 </div>
             </div>
         </li>
+        <li class="list-group-item">
+            <a href="{% url "tracker:objective" entry.objective.id %}" class="card-link">
+                View objective
+            </a>
+        </li>
     </ul>
-    <div class="card-body">
-        <a href="{% url "tracker:objective" entry.objective.id %}" class="card-link">
-            View objective
-        </a>
-    </div>
     <div class="card-footer">
         <div class="text-muted text-center">
-            Created on {{ entry.date_created|date:"F d, Y" }} ({{ entry.date_created|naturaltime }})
+            <p class="mb-0">
+                Created on {{ entry.date_created|date:"F d, Y" }}
+            </p>
+            <p class="mb-0">
+                ({{ entry.date_created|naturaltime }})
+            </p>
         </div>
     </div>
 </div>
