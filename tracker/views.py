@@ -1,9 +1,13 @@
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.template.loader import render_to_string
 from django.urls import reverse
+from django.utils.formats import date_format
 from django.views import generic
+from django.views.decorators.csrf import csrf_exempt
+
+import json
 
 from .forms import SigninForm, SignupForm, TimeEntryForm, TimeEntryObjectiveForm
 from .models import Objective, TimeEntry
@@ -177,3 +181,40 @@ class TimeEntryObjectiveFormView(generic.FormView):
 
     def get_success_url(self):
         return reverse("tracker:objective", kwargs={"pk": self.kwargs["objective"]})
+
+
+def json_get_objectives(request):
+    objective_list = Objective.objects.all().order_by("-date_created")
+    json_list = []
+
+    for objective in objective_list:
+        json_list.append({
+            "name": objective.name,
+            "description": objective.description,
+            "target": objective.target,
+            "progression": objective.progression(),
+            "date_created": date_format(objective.date_created, "F d, Y"),
+        })
+
+    return JsonResponse({"objectives": json_list})
+
+
+@csrf_exempt
+def json_create_entry(request):
+    json_data = json.loads(request.body)
+
+    explanation = json_data.get("explanation")
+    objective = json_data.get("objective")
+    submitter = json_data.get("submitter", "")
+    effort = json_data.get("effort")
+
+    entry = TimeEntry(
+        user=None,
+        objective_id=objective,
+        explanation=explanation,
+        effort=effort,
+        submitter=submitter
+    )
+    entry.save()
+
+    return HttpResponse(status=200)
