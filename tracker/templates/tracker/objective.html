@@ -8,12 +8,12 @@
 {% block template_content %}
     <div class="jumbotron">
         <div class="container">
-            <h1>
-                {{ objective.name }}
-            </h1>
             <h2 class="text-muted">
                 Objective
             </h2>
+            <h1>
+                {{ objective.name }}
+            </h1>
             {% if objective.description %}
                 <p class="lead">
                     {{ objective.description }}
@@ -94,12 +94,7 @@
         </div>
     </div>
 
-    {% if user.is_authenticated %}
-        {% include "tracker/objective/time-entry-modal/authenticated.html" %}
-    {% else %}
-        {% include "tracker/objective/time-entry-modal/unauthenticated.html" %}
-    {% endif %}
-
+    {% include "tracker/objective/time-entry-modal.html" %}
 {% endblock %}
 
 {% block template_js %}
