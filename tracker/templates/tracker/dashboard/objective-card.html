@@ -16,7 +16,7 @@
                 Description
             </p>
             <p class="card-text mb-0">
-                {{ objective.description }}
+                {{ objective.description|linebreaks|truncatewords:50 }}
             </p>
         {% endif %}
     </div>

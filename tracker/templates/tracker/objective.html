@@ -16,7 +16,7 @@
             </h1>
             {% if objective.description %}
                 <p class="lead">
-                    {{ objective.description }}
+                    {{ objective.description|linebreaks }}
                 </p>
             {% endif %}
             <hr>

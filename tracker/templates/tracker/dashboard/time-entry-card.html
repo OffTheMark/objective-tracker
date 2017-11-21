@@ -9,7 +9,7 @@
             Explanation
         </p>
         <p class="card-text mb-0">
-            {{ entry.explanation }}
+            {{ entry.explanation|linebreaks|truncatewords:50 }}
         </p>
         <p class="card-text text-muted mt-2 mb-0">
             Objective
