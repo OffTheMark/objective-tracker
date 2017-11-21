@@ -35,7 +35,12 @@
     </ul>
     <div class="card-footer">
         <div class="text-muted text-center">
-            Created on {{ entry.date_created|date:"F d, Y" }} ({{ entry.date_created|naturaltime }})
+            <p class="mb-0">
+                Created on {{ entry.date_created|date:"F d, Y" }}
+            </p>
+            <p class="mb-0">
+                ({{ entry.date_created|naturaltime }})
+            </p>
         </div>
     </div>
 </div>
