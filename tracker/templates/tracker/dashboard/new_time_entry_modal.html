@@ -1,0 +1,57 @@
+<div class="modal fade" id="newEntryModal" tabindex="-1" role="dialog" aria-labelledby="newEntryModalTitle">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id=newEntryModalTitle" class="modal-title">
+                    New time entry
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="card-text text-muted mb-0">
+                    Explanation
+                </p>
+                <p class="card-text mb-0">
+                    {{ entry.explanation }}
+                </p>
+                <p class="card-text text-muted mt-2 mb-0">
+                    Objective
+                </p>
+                <p class="card-text mb-0">
+                    {{ entry.objective }}
+                </p>
+                {% if entry.get_submitter %}
+                    <p class="card-text text-muted mt-2 mb-0">
+                        Created by
+                    </p>
+                    <p class="card-text mb-0">
+                        {{ entry.get_submitter }}
+                    </p>
+                {% endif %}
+                <hr>
+                <div class="row">
+                    <div class="col-6">
+                        <strong>
+                            Effort
+                        </strong>
+                    </div>
+                    <div class="col-6 text-right">
+                        {% with effort=entry.effort %}
+                            {{ effort|floatformat }} hour{{ effort|pluralize }}
+                        {% endwith %}
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="{% url "tracker:entry"%}" class="btn btn-link">
+                    Add another entry
+                </a>
+                <button type="button" class="btn btn-secondary ml-auto" data-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

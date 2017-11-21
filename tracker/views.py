@@ -87,6 +87,9 @@ class DashboardView(generic.TemplateView):
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         data["navbar_active"] = "dashboard"
+        new_entry = self.request.GET.get("new_entry")
+        if new_entry is not None:
+            data["new_entry"] = TimeEntry.objects.get(pk=new_entry)
         return data
 
 
@@ -129,7 +132,7 @@ class TimeEntryFormView(generic.CreateView):
         return data
 
     def get_success_url(self):
-        return reverse("tracker:entry")
+        return reverse("tracker:dashboard") + "?new_entry={}".format(self.object.id)
 
 
 class ObjectiveView(generic.DetailView):
