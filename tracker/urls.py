@@ -15,4 +15,5 @@ urlpatterns = [
     url(r'^objective/(?P<pk>[0-9]+)/$', views.ObjectiveView.as_view(), name="objective"),
     url(r'^objective/(?P<objective>[0-9]+)/entry/$', views.TimeEntryObjectiveFormView.as_view(), name="objective/entry"),
     url(r'^json/objectives/$', views.json_get_objectives, name="json/objectives"),
+    url(r'^json/entry/$', views.json_create_entry, name="json/entry"),
 ]
