@@ -142,6 +142,7 @@ class TimeEntryFormView(generic.CreateView):
 class ObjectiveView(generic.DetailView):
     template_name = "tracker/objective.html"
     model = Objective
+    pk_url_kwarg = "objective"
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
@@ -180,7 +181,7 @@ class TimeEntryObjectiveFormView(generic.FormView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse("tracker:objective", kwargs={"pk": self.kwargs["objective"]})
+        return reverse("tracker:objective", kwargs={"objective": self.kwargs["objective"]})
 
 
 def json_get_objectives(request):
