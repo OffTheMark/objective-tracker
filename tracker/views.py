@@ -193,7 +193,7 @@ def json_get_objectives(request):
             "name": objective.name,
             "description": objective.description,
             "target": objective.target,
-            "progression": objective.progression(),
+            "total_effort": objective.total_effort(),
             "date_created": date_format(objective.date_created, "F d, Y"),
         })
 
