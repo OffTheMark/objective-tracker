@@ -28,5 +28,5 @@ urlpatterns = [
     url(r'^entry/$', views.TimeEntryFormView.as_view(), name="entry"),
     url(r'^dashboard/', include(dashboard_patterns)),
     url(r'^objective/(?P<objective>[0-9]+)/', include(objective_patterns)),
-    url(r'^json/', include(api_patterns)),
+    url(r'^api/', include(api_patterns)),
 ]
