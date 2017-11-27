@@ -22,14 +22,16 @@ class Objective(models.Model):
     )
     date_created = models.DateTimeField(default=datetime.now)
 
+    @property
     def total_effort(self):
         return sum([entry.effort for entry in self.timeentry_set.all()])
 
+    @property
     def progression(self):
-        return (self.total_effort() / self.target) * 100
+        return (self.total_effort / self.target) * 100
 
     def is_reached(self):
-        return self.total_effort() >= self.target
+        return self.total_effort >= self.target
     is_reached.admin_order_field = "goal"
     is_reached.boolean = True
     is_reached.short_description = "Reached"
