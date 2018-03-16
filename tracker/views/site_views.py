@@ -1,13 +1,9 @@
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
+from django.http import HttpResponseRedirect, HttpResponse
 from django.template.loader import render_to_string
 from django.urls import reverse
-from django.utils.formats import date_format
 from django.views import generic
-from django.views.decorators.csrf import csrf_exempt
-
-import json
 
 from tracker.forms import SigninForm, SignupForm, TimeEntryForm, TimeEntryObjectiveForm
 from tracker.models import Objective, TimeEntry
